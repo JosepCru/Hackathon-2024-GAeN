@@ -26,14 +26,14 @@ Before running the code, ensure you have the following installed:
 - Python 3.8 or higher  
 - Required Python libraries:  
   ```bash
-  pip install numpy pandas tensorflow keras matplotlib opencv-python
+  pip install numpy pytorch hyperspy atomai matplotlib opencv-python
   ```  
 - A working microscope setup (if applicable) or access to images for testing.  
 
 ### Project Setup  
 1. Clone this repository to your local machine:  
    ```bash
-   git clone https://github.com/yourusername/nanoparticle-detector.git
+   git clone https://github.com/martatorrenss/nanoparticle-detector.git (????)
    cd nanoparticle-detector
    ```  
 
@@ -84,7 +84,7 @@ nanoparticle-detector/
 ## **How It Works**  
 1. **Data Preparation**:  
    - Real and synthetic microscope images are collected and labeled.  
-   - Images are split into 256x256 regions for model training.  
+   - Images are split into 128x128 regions for model training.  
 
 2. **Model Training**:  
    - Two machine learning models (Tecnai and Spectra) are trained to:  
@@ -122,7 +122,7 @@ Contributions are welcome! Please follow these steps:
 ---
 
 ## **License**  
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. ???
 
 ---
 
@@ -132,5 +132,7 @@ This project was developed with the support of advanced electron microscopy grou
 ---
 
 ## **Contact**  
+Ivan Pinto, Josep Cruañes, Jovan Pomar, Xuli Chen, Marta Torrens
+Advanced Electron Nanoscopy Group, ICN2 
 For questions or collaborations, please contact:  
-📧 **your.email@example.com**  
+📧 **ivan.pinto@icn2.cat**  
