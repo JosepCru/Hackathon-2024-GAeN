@@ -1,23 +1,45 @@
 import numpy as np
 
 class Autonomous_navigator():
-    def __init__(self, image_sample, image_spiral):
+    def __init__(self, image_sample, image_spiral, grid_coordinates):
         self.image_sample = image_sample
         self.image_spiral = image_spiral
         self.path_tracking = []
+        self.grid_coordinates = grid_coordinates
 
         self.step = 32
         self.fov = 256
+        self.threshold = 0.2
 
-    def calculate_np_probability(self, image):
+    def calculate_np_probability(self):
         """
         This is the model which it will calculate the probability of finding nanoparticles
         """
         # do things
-        return p
+        
+        return 
 
     # def standard_movement(image_sample, ):
 
+    def Navigation_in_minigrid (self, x, y): # x and y are the dimensions of the minigrid; n is the step for the movement  
+        n = self.step
+        x , y = 4096
+        for i in range(0, x, n): # Movement of the section along the x and y axis
+            for j in range (0, y, n):
+
+                scanning_view = self.image_sample[i-self.fov+n:i+n, j+n:j+self.fov+n]
+                i_new, j_new = (i+n, j+n)
+        return 
+
+    def find_new_grid(self, i, j):
+        """
+        This function finds regions that haven't been explored yet
+        """
+        self.id_visited = list(set(self.image_spiral[i - self.fov: i, j : j + self.fov]))
+        self.id_not_visited_yet = self.id_not_visited_yet[~np.isin(self.id_not_visited_yet,self.id_visited)]
+
+        return self.grid_coordinates[self.id_not_visited_yet[0]] 
+    
     def border(self, i, j):
         """
         This function detects borders when scanning the image.
@@ -63,15 +85,15 @@ class Autonomous_navigator():
 
         #Left
         if not self.border(i, j-n): 
-            scanning_m_r = self.image_sample[i-self.fov:i, j+n:j+self.fov+n]
-            prob_mov_r = self.calculate_np_probability(scanning_m_r)
+            scanning_m_l = self.image_sample[i-self.fov:i, j+n:j+self.fov+n]
+            prob_mov_l = self.calculate_np_probability(scanning_m_l)
         else:
             prob_mov_l = 0
         
         #Right
         if not self.border(i, j+n):     
-            scannig_m_l = self.image_sample[i-self.fov:i, j-n:j+self.fov-n]
-            prob_mov_l = self.calculate_np_probability(scannig_m_l)
+            scannig_m_r = self.image_sample[i-self.fov:i, j-n:j+self.fov-n]
+            prob_mov_r = self.calculate_np_probability(scannig_m_r)
         else:
             prob_mov_r = 0
         
@@ -99,9 +121,9 @@ class Autonomous_navigator():
 
 
 
-    def autonomous_navigation(self, image_sample, image_spiral, coord_microscope, step_movement = 32, fov = 256, threshold = 0.2):
+    def autonomous_navigation(self, coord_microscope):
         i, j = coord_microscope
-        image_microscope = self.image_sample[i - fov: i, j : j + fov]
+        image_microscope = self.image_sample[i - self.fov: i, j : j + self.fov]
 
         # Calculate probability
         # p_np = self.calculate_np_probability(image_microscope)
@@ -114,7 +136,7 @@ class Autonomous_navigator():
 
         #     if i == i_new & j == j_new:
         #         self.acquire_images()
-        #         i_new, j_new = self.find_new_grid()
+        #         i_new, j_new = self.find_new_grid(i, j)
 
         # self.path_tracking.append((i_new, j_new))
         # return i_new, j_new
@@ -124,5 +146,5 @@ class Autonomous_navigator():
         i, j = coord_microscope
         nps_finded = 0
         while nps_finded < nps_wanted:
-            i_new, j_new = self.autonomous_navigation(image_sample, image_spiral, coord_microscope, step_movement = 32, fov = 256, threshold = 0.2)
+            i_new, j_new = self.autonomous_navigation(self.image_sample, self.image_spiral, coord_microscope, self.step, self.fov, self.threshold)
             coord_microscope = (i_new, j_new)
