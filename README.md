@@ -61,8 +61,9 @@ Before running the code, ensure you have the following installed:
 nanoparticle-detector/
 │
 ├── data/                   # Input images and labels
-│   ├── images/                # Original microscope images
-│   ├── labels/          # Synthetic or preprocessed images
+│   ├── images/                # Original microscope images with nanoparticles
+│   ├── labels/          # Labelled images
+│   └── backgrounds/    # Original microscope images without nanoparticles
 │
 ├── models/                 # Saved machine learning models
 │   ├── Nps_detection.py    # Model to get center coordinates
