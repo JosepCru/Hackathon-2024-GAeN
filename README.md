@@ -39,10 +39,10 @@ nanoparticle-detector/
 │   └── simulated_grid.png     # Simulated image
 │
 ├── ML/models                  # Saved machine learning models
-│   └── nanos_detector.pkl     # Model to detect nanoparticles
+│   └── nanos_detector.pkl     # Model to detect nanoparticles (the other model is in a Google Drive link to download)
 │
 ├── Auxiliar files/  
-│   ├── Sample_generetor.py     # Script to generate data
+│   └── Sample_generetor.py     # Script to generate data
 │
 ├──GUI/
 │   ├── navigation.py          # Navigation system
