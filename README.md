@@ -65,18 +65,18 @@ nanoparticle-detector/
 │   ├── labels/          # Labelled images
 │   └── backgrounds/    # Original microscope images without nanoparticles
 │
-├── models/                 # Saved machine learning models
+├── ML/                     # Saved machine learning models
 │   ├── Nps_detection.py    # Model to get center coordinates
-│   └── NPs_detector.ipynb    # Model to detect nanoparticles
+│   └── NPs_detector.ipynb  # Model to detect nanoparticles
 │
-├── scripts/  
-│   ├── data_generator.py   # Script to generate synthetic data
-│   ├── model_training.ipynb      # Model training script
-│   └── navigation.py        # Automated scanning algorithm
+├── Navigation/  
+│   ├── Sample_generetor.py     # Script to generate data
+│   ├── model_training.ipynb    # Model training script
+│   └── navigation.py           # Automated scanning algorithm
 │
 ├──GUI/
 |   └── main.py       # Main user interface with navigator
-├── README.md               # This file
+├── README.md         # This file
 └── LICENSE                 # License information
 ```
 
