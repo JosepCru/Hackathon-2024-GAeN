@@ -1,6 +1,9 @@
 import numpy as np
 
-def build_spiral_big(num_cells_x, num_cells_y, start_x, start_y, cell_size=4096):
+def build_spiral_big(num_cells_x, num_cells_y, cell_size=4096):
+        
+        start_x = round(num_cells_x / 2) - 1
+        start_y = num_cells_y // 2 
     
         coord_desordenado = []
         lista_id = []
@@ -51,8 +54,4 @@ def build_spiral_big(num_cells_x, num_cells_y, start_x, start_y, cell_size=4096)
         coord_ordenado = [coord_desordenado[id_ - 1] for id_ in lista_id]
         coord_ordenado = [coord_desordenado[lista_id.index(i)] for i in range(1, len(coord_desordenado) + 1)]
 
-        print(lista_id)
-        print(coord_desordenado)
-        print(coord_ordenado)
-
-        return image, coord_desordenado
+        return image, coord_ordenado
