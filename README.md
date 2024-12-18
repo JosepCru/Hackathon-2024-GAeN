@@ -16,6 +16,12 @@ The system includes:
 - **Visualization**: Tracks microscope movements and displays results in an intuitive interface.  
 - **Synthetic Data Generation**: Creates labeled datasets to train and validate machine learning models.
 
+## **Deploy GUI**
+
+  <p align ="center">
+  <img alt="demo" src="Data/demo.gif"/>
+  </p>
+
 ---
 
 ## **Getting Started**  
@@ -100,6 +106,6 @@ This project was developed with the support of advanced electron microscopy grou
 
 ## **Contact**  
 Ivan Pinto, Josep Cruañes, Jovan Pomar, Xuli Chen, Marta Torrens
-Advanced Electron Nanoscopy Group, ICN2 
+- Advanced Electron Nanoscopy Group, ICN2 
 For questions or collaborations, please contact:  
 📧 **ivan.pinto@icn2.cat**  
