@@ -13,7 +13,7 @@ class Frame_settings(ctk.CTkFrame):
  
         # Frame Acquisition
         self.frame_acquisition = Frame_titled(self, 'Acquistion settings')
-        self.parameters = Parameters_frame(self.frame_acquisition, ['# NPs to detect'])
+        self.parameters = Parameters_frame(self.frame_acquisition, ['# NPs images'])
         self.button_play = ctk.CTkButton(self.frame_acquisition, text = 'Start acquisition', cursor =  'hand2', fg_color='green', font=('American typewriter', 20))
         self.label_model1 = ctk.CTkLabel(self, text=' Probability of NPs: ', font=('American typewriter', 20))
 

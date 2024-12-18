@@ -21,7 +21,7 @@ class NPs_detection_gui(ctk.CTk):
 
         # Parameters and variables
         self.project_path = project_path
-        self.grid_path = 'Data/image2.png'
+        self.grid_path = 'Data/simulated_grid.png'
         self.size_image = 600
         self.grid_width = 800
         self.grid_heigth = 600
@@ -77,7 +77,7 @@ class NPs_detection_gui(ctk.CTk):
     def autonomous_navigation(self):
         coord_microscope = self.grid_matrix.shape[0]//2 -400 , 300
         self.navigator.nps_finded = 0
-        nps_wanted = self.frame_settings.parameters.variables_dic['# NPs to detect'].get()
+        nps_wanted = self.frame_settings.parameters.variables_dic['# NPs images'].get()
         print(nps_wanted)
         while self.navigator.nps_finded < nps_wanted:
             nps_before = self.navigator.nps_finded
