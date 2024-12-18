@@ -81,8 +81,8 @@ def image_to_matrix_coordinates(image_coords, image_width, image_height, matrix_
     row = int(y * y_scale + 0.5) # round to integer
 
     # Make sure the coordinates are within the matrix bounds
-    column = max(0, min(column, matrix_width - 1))
-    row = max(0, min(row, matrix_height - 1))
+    column = max(0, min(column, matrix_height - 1))
+    row = max(0, min(row, matrix_width - 1))
 
     return row, column
 
