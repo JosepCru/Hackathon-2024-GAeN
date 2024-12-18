@@ -12,8 +12,8 @@ The system includes:
 
 ## **Features**  
 - **Real-Time Detection**: Identifies nanoparticles, their quantity, and their coordinates from 256x256 microscope image sections.  
-- **Large Image Analysis**: Processes large 12kx16k images by dividing them into smaller grids.  
-- **Spiral Scanning**: Automatically navigates through the sample, skipping areas without nanoparticles for maximum efficiency.  
+- **Large Image Analysis**: Processes large 1024x1024 images by dividing them into smaller grids.  
+- **Scanning**: Automatically navigates through the sample, skipping areas without nanoparticles for maximum efficiency.  
 - **Visualization**: Tracks microscope movements and displays results in an intuitive interface.  
 - **Synthetic Data Generation**: Creates labeled datasets to train and validate machine learning models.
 
@@ -61,21 +61,22 @@ Before running the code, ensure you have the following installed:
 nanoparticle-detector/
 │
 ├── data/                   # Input images and labels
-│   ├── images/                # Original microscope images
-│   ├── labels/          # Synthetic or preprocessed images
+│   ├── images/                # Original microscope images with nanoparticles
+│   ├── labels/          # Labelled images
+│   └── backgrounds/    # Original microscope images without nanoparticles
 │
-├── models/                 # Saved machine learning models
+├── ML/                     # Saved machine learning models
 │   ├── Nps_detection.py    # Model to get center coordinates
-│   └── NPs_detector.ipynb    # Model to detect nanoparticles
+│   └── NPs_detector.ipynb  # Model to detect nanoparticles
 │
-├── scripts/  
-│   ├── data_generator.py   # Script to generate synthetic data
-│   ├── model_training.ipynb      # Model training script
-│   └── navigation.py        # Automated scanning algorithm
+├── Navigation/  
+│   ├── Sample_generetor.py     # Script to generate data
+│   ├── model_training.ipynb    # Model training script
+│   └── navigation.py           # Automated scanning algorithm
 │
 ├──GUI/
 |   └── main.py       # Main user interface with navigator
-├── README.md               # This file
+├── README.md         # This file
 └── LICENSE                 # License information
 ```
 
@@ -92,7 +93,7 @@ nanoparticle-detector/
      - Return the number of nanoparticles and their center coordinates.
 
 3. **Automated Navigation**:  
-   - The microscope window scans a 12kx16k image grid-by-grid.  
+   - The microscope window scans a 1024x1024 image grid-by-grid.  
    - Spiral movement optimizes search efficiency, skipping empty grids.  
    - When nanoparticles are detected, the navigator focuses on high-probability regions.
 
