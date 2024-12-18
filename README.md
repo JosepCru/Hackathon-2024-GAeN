@@ -16,7 +16,7 @@ The system includes:
 - **Visualization**: Tracks microscope movements and displays results in an intuitive interface.  
 - **Synthetic Data Generation**: Creates labeled datasets to train and validate machine learning models.
 
-- ## **Deploy GUI**
+## **Deploy GUI**
 
   <p align ="center">
   <img alt="demo" src="Data/demo.gif"/>
