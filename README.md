@@ -71,7 +71,7 @@ nanoparticle-detector/
      - Return the coordinetas of the nanoparticle center .
 
 3. **Automated Navigation**:  
-   - The microscope window scans a 1024x1024 image.  
+   - The microscope window scans a 256x256 image.  
    - When nanoparticles are detected, the navigator focuses on high-probability regions.
 
 4. **User Interface**:  
@@ -85,17 +85,6 @@ The system:
 - **Accelerates analysis** by automating nanoparticle detection.  
 - **Optimizes microscope usage** with a focused navigation approach.  
 - **Provides accurate predictions** with well-trained machine learning models.  
-
----
-
-## **Contributing**  
-Contributions are welcome! Please follow these steps:  
-1. Fork the repository.  
-2. Create a new branch for your feature:  
-   ```bash
-   git checkout -b feature-name
-   ```  
-3. Commit your changes and open a pull request.
 
 ---
 
