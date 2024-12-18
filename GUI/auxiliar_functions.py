@@ -51,8 +51,8 @@ def matrix_to_image_coordinates(matrix_coords, matrix_width, matrix_height, imag
     y = row * y_scale
 
     # Make sure the coordinates are within the image bounds
-    x = max(0, min(x, image_width - 1))
-    y = max(0, min(y, image_height - 1))
+    x = max(0, min(x, image_height - 1))
+    y = max(0, min(y, image_width - 1))
 
     return x, y
 

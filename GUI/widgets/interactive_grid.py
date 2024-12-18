@@ -1,6 +1,6 @@
 import numpy as np
 from widgets.interactive_image import Interactive_image
-from auxiliar_functions import image_to_matrix_coordinates
+from auxiliar_functions import image_to_matrix_coordinates, matrix_to_image_coordinates
 
 class Interactive_grid(Interactive_image):
     def __init__(self, root, command, *args, **kwargs):
@@ -18,6 +18,9 @@ class Interactive_grid(Interactive_image):
     def get_coord(self, e):
         print(e)
 
+    def creat_selector_matrix(self, x_m, y_m):
+        x, y = matrix_to_image_coordinates((x_m, y_m),  *self.matrix.shape, self.height, self.width)
+        self.create_selector(x, y)
     
     def create_selector(self, x, y, square = False, outline = 'yellow'):
         self.canvas.delete(self.rectangle)
