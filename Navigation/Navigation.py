@@ -19,17 +19,78 @@ class Autonomous_navigator():
         
         return 
 
-    # def standard_movement(image_sample, ):
+    # 
+    
+    def build_spiral_big(num_cells_x, num_cells_y, start_x, start_y, cell_size=4096):
+    
+        coord_desordenado = []
+        lista_id = []
+        coord_ordenado = []
 
-    def Navigation_in_minigrid (self, x, y): # x and y are the dimensions of the minigrid; n is the step for the movement  
+        grid_array = np.zeros((num_cells_y, num_cells_x), dtype=int)
+        
+        directions = [(1, 0), (0, -1), (-1, 0), (0, 1)] 
+        direction_index = 0
+
+        x, y = start_x, start_y
+        cell_id = 1
+        step_size = 1 
+        steps_taken = 0
+        direction_changes = 0  
+        num_total = num_cells_x * num_cells_y
+
+        while cell_id <= num_total:
+            grid_array[y, x] = cell_id
+            cell_id += 1
+            
+            dx, dy = directions[direction_index]
+            x += dx
+            y += dy
+            steps_taken += 1
+
+            if steps_taken == step_size:
+                steps_taken = 0
+                direction_index = (direction_index + 1) % 4
+                direction_changes += 1
+
+                if direction_changes % 2 == 0:
+                    step_size += 1
+
+        image_height = num_cells_y * cell_size
+        image_width = num_cells_x * cell_size
+        image = np.zeros((image_height, image_width), dtype=int)
+
+        for i in range(num_cells_y):
+            for j in range(num_cells_x):
+                cell_value = grid_array[i, j]
+                lista_id.append(cell_value)
+                y_start, y_end = i * cell_size, (i + 1) * cell_size
+                x_start, x_end = j * cell_size, (j + 1) * cell_size
+                image[y_start:y_end, x_start:x_end] = cell_value
+                coord_desordenado.append((y_start, x_start))
+
+        coord_ordenado = [coord_desordenado[id_ - 1] for id_ in lista_id]
+        coord_ordenado = [coord_desordenado[lista_id.index(i)] for i in range(1, len(coord_desordenado) + 1)]
+
+        print(lista_id)
+        print(coord_desordenado)
+        print(coord_ordenado)
+
+        return image, coord_desordenado
+
+    def Navigation_in_minigrid (i_in, j_in): 
+        """
+        This function defined the movement in the minigrid.  
+        """
         n = self.step
-        x , y = 4096
-        for i in range(0, x, n): # Movement of the section along the x and y axis
-            for j in range (0, y, n):
+
+        for i in range(i_in, i_in+1024, n): 
+            for j in range (j_in, j_in+1024, n):
 
                 scanning_view = self.image_sample[i-self.fov+n:i+n, j+n:j+self.fov+n]
-                i_new, j_new = (i+n, j+n)
-        return 
+                i_fin, j_fin = (i+n, j+n)
+
+        return i_fin, j_fin 
 
     def find_new_grid(self, i, j):
         """
@@ -39,7 +100,7 @@ class Autonomous_navigator():
         self.id_not_visited_yet = self.id_not_visited_yet[~np.isin(self.id_not_visited_yet,self.id_visited)]
 
         return self.grid_coordinates[self.id_not_visited_yet[0]] 
-    
+
     def border(self, i, j):
         """
         This function detects borders when scanning the image.
@@ -55,7 +116,7 @@ class Autonomous_navigator():
         
         if border_left >= 0 or border_right < dimension_right:
             return True
-    
+
         if border_up >= 0 or border_down < dimension_down : 
             return True
 
@@ -110,7 +171,7 @@ class Autonomous_navigator():
             
         elif max_prob == prob_mov_l: #go to the left
             i_new, j_new = i, j-n
-   
+
         elif max_prob == prob_mov_u: #go up
             i_new, j_new = i-n, j
                 
