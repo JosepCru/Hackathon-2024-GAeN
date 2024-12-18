@@ -93,11 +93,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## **License**  
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. ???
-
----
-
 ## **Acknowledgements**  
 This project was developed with the support of advanced electron microscopy groups and researchers. Special thanks to our collaborators and advisors for their invaluable input.  
 
