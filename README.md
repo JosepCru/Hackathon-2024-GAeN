@@ -61,20 +61,20 @@ Before running the code, ensure you have the following installed:
 nanoparticle-detector/
 │
 ├── data/                   # Input images and labels
-│   ├── raw/                # Original microscope images
-│   ├── processed/          # Synthetic or preprocessed images
+│   ├── images/                # Original microscope images
+│   ├── labels/          # Synthetic or preprocessed images
 │
 ├── models/                 # Saved machine learning models
-│   ├── spectra_model.h5    # Model for Spectra microscope
-│   └── tecnai_model.h5     # Model for Tecnai microscope
+│   ├── Nps_detection.py    # Model to get center coordinates
+│   └── NPs_detector.ipynb    # Model to detect nanoparticles
 │
 ├── scripts/  
 │   ├── data_generator.py   # Script to generate synthetic data
-│   ├── train_model.py      # Model training script
-│   └── navigator.py        # Automated scanning algorithm
+│   ├── model_training.ipynb      # Model training script
+│   └── navigation.py        # Automated scanning algorithm
 │
-├── main_interface.py       # Main user interface with navigator
-├── requirements.txt        # Python dependencies
+├──GUI/
+|   └── main.py       # Main user interface with navigator
 ├── README.md               # This file
 └── LICENSE                 # License information
 ```
