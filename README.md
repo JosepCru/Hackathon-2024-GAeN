@@ -49,7 +49,7 @@ nanoparticle-detector/
 |   ├── auxiliar_functions.py  
 |   ├── settings.py
 |   └── main.py                # Main user interface with navigator
-├── README.md         # This file
+└── README.md         # This file
 ```
 
 ---
