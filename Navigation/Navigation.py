@@ -1,4 +1,8 @@
 import numpy as np
+from fastbook import *
+from fastai.vision.widgets import *
+from fastai.vision.all import *
+from ..GUI.auxiliar_functions import normalize_image
 
 class Autonomous_navigator():
     def __init__(self, image_sample, image_spiral, grid_coordinates):
@@ -9,76 +13,19 @@ class Autonomous_navigator():
 
         self.step = 32
         self.fov = 256
-        self.threshold = 0.2
+        self.threshold = 0.5
 
-    def calculate_np_probability(self):
-        """
-        This is the model which it will calculate the probability of finding nanoparticles
-        """
-        # do things
+        self.learn_inf = load_learner('ML/models/nanos_detector.pkl')
+
+    def calculate_np_probability(self, image):
+        img_format = np.uint8(image*255) #We need change the format
+        pred = self.learn_inf.predict(img_format)
+        probability = float(pred[2][1])
         
-        return 
+        return probability
 
-    # 
-    
-    def build_spiral_big(num_cells_x, num_cells_y, start_x, start_y, cell_size=4096):
-    
-        coord_desordenado = []
-        lista_id = []
-        coord_ordenado = []
 
-        grid_array = np.zeros((num_cells_y, num_cells_x), dtype=int)
-        
-        directions = [(1, 0), (0, -1), (-1, 0), (0, 1)] 
-        direction_index = 0
-
-        x, y = start_x, start_y
-        cell_id = 1
-        step_size = 1 
-        steps_taken = 0
-        direction_changes = 0  
-        num_total = num_cells_x * num_cells_y
-
-        while cell_id <= num_total:
-            grid_array[y, x] = cell_id
-            cell_id += 1
-            
-            dx, dy = directions[direction_index]
-            x += dx
-            y += dy
-            steps_taken += 1
-
-            if steps_taken == step_size:
-                steps_taken = 0
-                direction_index = (direction_index + 1) % 4
-                direction_changes += 1
-
-                if direction_changes % 2 == 0:
-                    step_size += 1
-
-        image_height = num_cells_y * cell_size
-        image_width = num_cells_x * cell_size
-        image = np.zeros((image_height, image_width), dtype=int)
-
-        for i in range(num_cells_y):
-            for j in range(num_cells_x):
-                cell_value = grid_array[i, j]
-                lista_id.append(cell_value)
-                y_start, y_end = i * cell_size, (i + 1) * cell_size
-                x_start, x_end = j * cell_size, (j + 1) * cell_size
-                image[y_start:y_end, x_start:x_end] = cell_value
-                coord_desordenado.append((y_start, x_start))
-
-        coord_ordenado = [coord_desordenado[id_ - 1] for id_ in lista_id]
-        coord_ordenado = [coord_desordenado[lista_id.index(i)] for i in range(1, len(coord_desordenado) + 1)]
-
-        print(lista_id)
-        print(coord_desordenado)
-        print(coord_ordenado)
-
-        return image, coord_desordenado
-
-    def Navigation_in_minigrid (i_in, j_in): 
+    def Navigation_in_minigrid (self, i_in, j_in): 
         """
         This function defined the movement in the minigrid.  
         """
@@ -181,26 +128,25 @@ class Autonomous_navigator():
         return i_new, j_new
 
 
-
     def autonomous_navigation(self, coord_microscope):
         i, j = coord_microscope
         image_microscope = self.image_sample[i - self.fov: i, j : j + self.fov]
 
         # Calculate probability
-        # p_np = self.calculate_np_probability(image_microscope)
+        p_np = self.calculate_np_probability(image_microscope)
 
-        # if p_np < threshold:
-        #     i_new, j_new = self.standard_movement(image_sample)
+        if p_np < self.threshold:
+            i_new, j_new = self.standard_movement(image_sample)
 
-        # else:
-        #     i_new, j_new = self.find_np()
+        else:
+            i_new, j_new = self.find_np()
 
-        #     if i == i_new & j == j_new:
-        #         self.acquire_images()
-        #         i_new, j_new = self.find_new_grid(i, j)
+            if i == i_new & j == j_new:
+                self.acquire_images()
+                i_new, j_new = self.find_new_grid(i, j)
 
-        # self.path_tracking.append((i_new, j_new))
-        # return i_new, j_new
+        self.path_tracking.append((i_new, j_new))
+        return i_new, j_new
 
 
     def autonomus_np_finder(self, coord_microscope, nps_wanted):
@@ -209,3 +155,8 @@ class Autonomous_navigator():
         while nps_finded < nps_wanted:
             i_new, j_new = self.autonomous_navigation(self.image_sample, self.image_spiral, coord_microscope, self.step, self.fov, self.threshold)
             coord_microscope = (i_new, j_new)
+
+def get_x(r):
+    im = Image.open('imagenes_M/' + r['labels'] +'/'+ r['file name'])
+    return np.array(np.uint8(normalize_image(im)*255))
+def get_y(r): return r['labels']

@@ -8,6 +8,10 @@ print(np.__version__)
 from settings import Frame_settings
 from widgets.interactive_image import Interactive_image
 from widgets.interactive_grid import Interactive_grid
+from fastbook import *
+from fastai.vision.widgets import *
+from fastai.vision.all import *
+from auxiliar_functions import normalize_image
 
 class NPs_detection_gui(ctk.CTk):
     def __init__(self, project_path = os.path.abspath('GUI'), *args, **kwargs):
@@ -15,13 +19,15 @@ class NPs_detection_gui(ctk.CTk):
 
         # Parameters and variables
         self.project_path = project_path
-        self.grid_path = 'Data/image.png'
+        self.grid_path = 'Data/image2.png'
         self.size_image = 600
         self.grid_width = 800
         self.grid_heigth = 600
         self.grid_matrix = np.array(Image.open(self.grid_path))
         self.zeros = np.zeros((256,256))
-        self.model = torch.load('ML/models/model_tecnai.pt')
+        self.model = torch.load('ML/models/model_tecnai_300.pt')
+
+        self.learn_inf = load_learner('ML/models/nanos_detector.pkl')
 
         # Window theme
         ctk.set_appearance_mode('dark')
@@ -48,13 +54,27 @@ class NPs_detection_gui(ctk.CTk):
         self.image_microscope.pack(side = 'right',  padx = 5, pady = 15, expand = True)
         self.image_grid.pack(side = 'right',  padx = 5, pady = 15)
 
+        
+
     def show_region(self, matrix):
         
         prediction = self.model.predict(matrix)
-        print(np.max(prediction[0][0]), prediction[0][0].shape)
+        img_format = np.uint8(matrix*255) #We need change the format
+        pred = self.learn_inf.predict(img_format)
+        print(float(pred[2][1]), np.max(prediction[0][0]))
         self.image_microscope.change_image(prediction[0][0, :, : , 0])
 
+        if float(pred[2][1]) > 0.5:
+            color = 'green'
+        else:
+            color = 'red'
+        self.frame_settings.label_model1.configure(text = f'Model 1: {float(pred[2][1]):.2f}',  text_color = color)
+        
 
+def get_x(r):
+    im = Image.open('imagenes_M/' + r['labels'] +'/'+ r['file name'])
+    return np.array(np.uint8(normalize_image(im)*255))
+def get_y(r): return r['labels']
 
 if __name__ == '__main__':
     app = NPs_detection_gui()
