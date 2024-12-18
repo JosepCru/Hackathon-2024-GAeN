@@ -12,7 +12,7 @@ The system includes:
 
 ## **Features**  
 - **Real-Time Detection**: Identifies nanoparticles, their quantity, and their coordinates from 256x256 microscope image sections.  
-- **Large Image Analysis**: Processes large 12kx16k images by dividing them into smaller grids.  
+- **Large Image Analysis**: Processes large 1024x1024 images by dividing them into smaller grids.  
 - **Spiral Scanning**: Automatically navigates through the sample, skipping areas without nanoparticles for maximum efficiency.  
 - **Visualization**: Tracks microscope movements and displays results in an intuitive interface.  
 - **Synthetic Data Generation**: Creates labeled datasets to train and validate machine learning models.
@@ -93,7 +93,7 @@ nanoparticle-detector/
      - Return the number of nanoparticles and their center coordinates.
 
 3. **Automated Navigation**:  
-   - The microscope window scans a 12kx16k image grid-by-grid.  
+   - The microscope window scans a 1024x1024 image grid-by-grid.  
    - Spiral movement optimizes search efficiency, skipping empty grids.  
    - When nanoparticles are detected, the navigator focuses on high-probability regions.
 
