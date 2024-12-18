@@ -93,8 +93,7 @@ nanoparticle-detector/
      - Return the number of nanoparticles and their center coordinates.
 
 3. **Automated Navigation**:  
-   - The microscope window scans a 1024x1024 image grid-by-grid.  
-   - Spiral movement optimizes search efficiency, skipping empty grids.  
+   - The microscope window scans a 1024x1024 image.  
    - When nanoparticles are detected, the navigator focuses on high-probability regions.
 
 4. **User Interface**:  
