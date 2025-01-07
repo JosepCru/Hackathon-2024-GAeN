@@ -3,19 +3,29 @@ from fastbook import *
 from fastai.vision.widgets import *
 from fastai.vision.all import *
 from auxiliar_functions import normalize_image
+from Sample_generetor import build_spiral_big
 
 class Autonomous_navigator():
-    def __init__(self, image_sample):
+    def __init__(self, image_sample, large_x = 4, large_y = 3, size_grid = 1024):
         self.image_sample = image_sample
+        self.image_spiral, self.grid_coordinates = build_spiral_big(large_x, large_y, cell_size = size_grid)
         self.path_tracking = []
 
         self.step = 32
         self.fov = 256
-        self.threshold = 0.99
+        self.threshold = 1.99
         self.nps_finded = 0
 
+        self.num_step_x = 0
+        self.num_step_y = 0
+        self.num_step=(size_grid-self.fov)/self.step + 1
+
+        n = large_x*large_y
+        self.id_not_visited_yet = [i for i in range(n)]
+        self.id_visited = []
+
         self.learn_inf = load_learner('ML/models/nanos_detector.pkl')
-        self.model = torch.load('ML/models/model_tecnai.pt')
+        # self.model = torch.load('ML/models/model_tecnai.pt')
 
     def calculate_np_probability(self, image):
         img_format = np.uint8(image*255) #We need change the format
@@ -46,7 +56,34 @@ class Autonomous_navigator():
 
         return False
 
+    def standard_movement(self, i, j):
 
+        self.num_step_x+=1
+        i_new = i + self.step
+        j_new = j
+
+        if(self.num_step_x == self.num_step):
+            self.num_step_x=0
+            self.num_step_y+=1
+            i_new -= self.num_step*self.step
+            j_new = j + self.step
+            
+        if(self.num_step_y == self.num_step):
+            self.num_step_x=0
+            self.num_step_y=0
+            i_new, j_new = self.find_new_grid(i, j)
+  
+        return i_new, j_new
+    
+    def find_new_grid(self, i, j):
+        """
+        This function finds regions that haven't been explored yet
+        """
+        self.id_visited = list(set(self.image_spiral[i - self.fov: i, j : j + self.fov].flatten()))
+        # self.id_not_visited_yet.remove(list(set(self.id_visited) & set(self.id_not_visited_yet)))
+
+        return self.grid_coordinates[self.id_not_visited_yet[0]] 
+    
     def find_np(self, p_np, coord_microscope):
         """
         This algorithm determines the navigation path for detecting nanoparticles. The direction of movement is guided by the probability of encountering nanoparticles at the next 
@@ -132,15 +169,16 @@ class Autonomous_navigator():
         print(p_np)
 
         if p_np < self.threshold:
-            j_new = j + self.step
-            i_new = i
+            # j_new = j + self.step
+            # i_new = i
+            i_new, j_new = self.standard_movement(i,j)
 
         else:
             i_new, j_new = self.find_np(p_np, coord_microscope)
 
             if (i == i_new) & (j == j_new):
                 i_new, j_new = self.acquire_images(i, j)
-                
+                self.find_new_grid(i_new, j_new)
 
         self.path_tracking.append((i_new, j_new))
         return i_new, j_new

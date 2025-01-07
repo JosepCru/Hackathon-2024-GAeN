@@ -51,7 +51,7 @@ def build_spiral_big(num_cells_x, num_cells_y, cell_size=4096):
                 image[y_start:y_end, x_start:x_end] = cell_value
                 coord_desordenado.append((y_start, x_start))
 
-        # coord_ordenado = [coord_desordenado[id_ - 1] for id_ in lista_id]
-        # coord_ordenado = [coord_desordenado[lista_id.index(i)] for i in range(1, len(coord_desordenado) + 1)]
+        coord_ordenado = [coord_desordenado[id_ - 1] for id_ in lista_id]
+        coord_ordenado = [coord_desordenado[lista_id.index(i)] for i in range(1, len(coord_desordenado) + 1)]
 
-        return image, coord_desordenado
+        return image, coord_ordenado
